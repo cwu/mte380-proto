@@ -1,0 +1,3 @@
+[submodule "libraries/AFMotor"]
+	path = libraries/AFMotor
+	url = https://github.com/adafruit/Adafruit-Motor-Shield-library.git

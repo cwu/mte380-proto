@@ -18,7 +18,7 @@ const int MIN_MOTOR_SPEED = 90;
 const int MIN_SIDE_DISTANCE = 50;
 const int MAX_SIDE_DISTANCE = 200;
 const int MIN_FRONT_DISTANCE = 300;
-const int STRAIGHT_ANGLE = 90;
+const int STRAIGHT_ANGLE = 75;
 
 void setup() {
   Serial.begin(9600);
@@ -70,8 +70,9 @@ void loop() {
   //*/
   
   // Set motor speed
-  //setMotorSpeed(frontSensorValue, sideSensorValue);
+  setMotorSpeed(frontSensorValue, sideSensorValue);
   
   // Set servo angle
   //setServoAngle(frontSensorValue, sideSensorValue);
+  servo.write(90);
 }

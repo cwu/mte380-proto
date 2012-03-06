@@ -9,3 +9,8 @@ If other UW students are taking code from here please reference as per policy
 71.
 
 Happy boating
+
+External Libraries
+------------------
+
+https://github.com/adafruit/Adafruit-Motor-Shield-library.git
