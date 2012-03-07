@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include <AFMotor.h>
 
-// Set up dummy pin values for now
+// Set up pin values for sensors and servo
 int frontSensorPin = A0;
 int sideSensorPin = A1;
 int servoPin = 10;
