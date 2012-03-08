@@ -1,6 +1,7 @@
 #include <Servo.h>
 #include <AFMotor.h>
 
+
 // Set up pin values for sensors and servo
 int frontSensorPin = A0;
 int sideSensorPin = A1;
@@ -18,7 +19,9 @@ const int MIN_MOTOR_SPEED = 90;
 const int MIN_SIDE_DISTANCE = 50;
 const int MAX_SIDE_DISTANCE = 200;
 const int MIN_FRONT_DISTANCE = 300;
-const int STRAIGHT_ANGLE = 75;
+const int RIGHT_RUDDER = 55;
+const int NEUTRAL_RUDDER = 75;
+const int LEFT_RUDDER = 95;
 
 void setup() {
   Serial.begin(9600);
@@ -43,15 +46,15 @@ void setMotorSpeed(int frontSensorValue, int sideSensorValue) {
 void setServoAngle(int frontSensorValue, int sideSensorValue) {
   // Wall in front
   if (frontSensorValue < MIN_FRONT_DISTANCE) {
-    servo.write(95);
+    servo.write(LEFT_RUDDER);
   // Get the boat straight
   } else {
     if (sideSensorValue > MIN_SIDE_DISTANCE && sideSensorValue < MAX_SIDE_DISTANCE) {
-      servo.write(STRAIGHT_ANGLE);
+      servo.write(NEUTRAL_RUDDER);
     } else if (sideSensorValue < MIN_SIDE_DISTANCE) {
-      servo.write(95);
+      servo.write(LEFT_RUDDER);
     } else if (sideSensorValue > MAX_SIDE_DISTANCE) {
-      servo.write(85);
+      servo.write(RIGHT_RUDDER);
     }
   }
 }
