@@ -1,3 +1,6 @@
 [submodule "libraries/AFMotor"]
 	path = libraries/AFMotor
 	url = https://github.com/adafruit/Adafruit-Motor-Shield-library.git
+[submodule "libraries/PIDLib"]
+	path = libraries/PIDLib
+	url = https://github.com/br3ttb/Arduino-PID-Library.git
