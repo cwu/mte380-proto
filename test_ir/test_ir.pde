@@ -1,4 +1,4 @@
-int sensorPin = A0;
+int sensorPin = A1;
 
 const double M = -10;
 const double B = 726;
