@@ -1,4 +1,5 @@
-int sensorPin = A1;
+int sensorPin = A0;
+int sensorPin2 = A1;
 
 const double M = -10;
 const double B = 726;
@@ -14,10 +15,16 @@ void setup() {
 
 void loop() {
   int value = analogRead(sensorPin);
-  Serial.print("Sensor Value : ");
+  int value2 = analogRead(sensorPin2);
+  Serial.print("Front Value : ");
   Serial.print(value);
   Serial.print(" | ");
   Serial.println(interpolateDistance(value, M, B));
+  
+  Serial.print("Side Value : ");
+  Serial.print(value2);
+  Serial.print(" | ");
+  Serial.println(interpolateDistance(value, M, B));
 
-  delay(500);
+  delay(1500);
 }
