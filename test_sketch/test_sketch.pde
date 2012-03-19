@@ -15,13 +15,14 @@ AF_DCMotor motor(1, MOTOR12_64KHZ);
 // Constant values like motor speed
 const int MAX_MOTOR_SPEED = 255;
 const int MIN_MOTOR_SPEED = 90;
-const int MIN_SIDE_DISTANCE = 230;
-const int MAX_SIDE_DISTANCE = 320;
-const int MIN_FRONT_DISTANCE = 200;
-const int RIGHT_RUDDER = 62;
-const int NEUTRAL_RUDDER = 77;
-const int LEFT_RUDDER = 88;
+const int MIN_SIDE_DISTANCE = 200;
+const int MAX_SIDE_DISTANCE = 260;
+const int MIN_FRONT_DISTANCE = 170;
+const int RIGHT_RUDDER = 63;
+const int NEUTRAL_RUDDER = 75;
+const int LEFT_RUDDER = 87;
 const int LEFT_TURN = 95;
+const int RIGHT_TURN = 55;
 
 // Decreasing servo angle variable
 int servoChange = 0;
@@ -43,12 +44,12 @@ void setMotorSpeed(int frontSensorValue, int sideSensorValue) {
 }
 
 void setServoAngle(int frontSensorValue, int sideSensorValue) {
-  //servoChange = 0;
+  servoChange = 0;
   // Wall in front
   if (frontSensorValue > MIN_FRONT_DISTANCE) {
-    servo.write(LEFT_TURN);
-    delay(50);
+    servo.write(RIGHT_TURN);
     servoChange = 0;
+    //delay(30);
   // Get the boat straight
   } else {
     if (sideSensorValue > MIN_SIDE_DISTANCE && sideSensorValue < MAX_SIDE_DISTANCE) {
@@ -58,23 +59,22 @@ void setServoAngle(int frontSensorValue, int sideSensorValue) {
       if (servoChange < 0) {
         servoChange = 0;
       }
-      servo.write(min(RIGHT_RUDDER + servoChange, NEUTRAL_RUDDER));
+      servo.write(max(LEFT_RUDDER - servoChange, NEUTRAL_RUDDER));
       servoChange++;
-      delay(50);
-      if (servoChange > 20) {
+      if (servoChange > 15) {
         servoChange = 0;
       }
     } else if (sideSensorValue > MAX_SIDE_DISTANCE) {
       if (servoChange > 0) {
         servoChange = 0;
       }
-      servo.write(max(LEFT_RUDDER + servoChange, NEUTRAL_RUDDER));
+      servo.write(min(RIGHT_RUDDER - servoChange, NEUTRAL_RUDDER));
       servoChange--;
-      delay(50);
-      if (servoChange < -20) {
+      if (servoChange < -15) {
         servoChange = 0;
       }
     }
+    //delay(20);
   }
 }
 
@@ -93,8 +93,7 @@ void loop() {
   
   // Set motor speed
   motor.setSpeed(255);
-  //Serial.println(sideSensorValue);
-  //delay(250);
+  Serial.println(sideSensorValue);
   //setMotorSpeed(frontSensorValue, sideSensorValue);
   
   // Set servo angle
