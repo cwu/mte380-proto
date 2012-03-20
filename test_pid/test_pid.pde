@@ -47,7 +47,7 @@ const int MIN_FRONT_DISTANCE = 170;
 
 const int ADJUST_RIGHT_RUDDER = 63;
 const int NEUTRAL_RUDDER = 75;
-const int ADJUST_LEFT_RUDDER = 90;
+const int ADJUST_LEFT_RUDDER = 85;
 
 const int RIGHT_TURN = 55;
 
@@ -61,7 +61,7 @@ const double MARGIN = 3.0;
 int servoChange = 0;
 
 double find_distance(int sensor_value) {
-  double sensor[] = { 
+  double sensor[] = {
     493, 482, 472, 464, 448,
     437, 426, 416, 414, 403,
     385, 377, 371, 356, 348,
@@ -77,11 +77,11 @@ double find_distance(int sensor_value) {
     40, 41, 42, 43, 44,
     45, 50, 55, 60, 65,
     70, 75, 80};
-  
+
   if (sensor_value >= sensor[0]) {
     return dist[0]-1;
   }
-  
+
   for (int i = 0; i < 33-1; i++) {
     if (sensor_value >= sensor[i+1] && sensor_value <= sensor[i
     ]) {
@@ -94,26 +94,26 @@ double find_distance(int sensor_value) {
 void setup() {
   Serial.begin(9600);
   Serial.println("Hello World");
-  
+
   // Setup Servo
   servo.attach(servoPin);
   servo.write(NEUTRAL_RUDDER);
-  
+
   // Set motor speed
   pinMode(1, OUTPUT);
-  
+
   motor.run(FORWARD);
   motor.setSpeed(255);
-  
+
   // init the pid
   side_ref = DESIRED_DISTANCE_FROM_WALL_CM;
   side_distance = side_ref;
   delta_rudder_angle = 0;
   pid.SetOutputLimits(RIGHT_RUDDER_LIMIT - NEUTRAL_RUDDER, LEFT_RUDDER_LIMIT - NEUTRAL_RUDDER);
   pid.SetSampleTime(20);
-  
+
   pid.SetMode(AUTOMATIC);
-  
+
 }
 
 int clampServoAngle(int servoAngle) {
@@ -125,14 +125,14 @@ int clampServoAngle(int servoAngle) {
 int rollingAverage(int new_value) {
   static int values[NUM_ROLLING_AVG_VALUES] = { 0 };
   static int sum = 0;
-  
+
   sum -= values[0];
   for (int i = 1; i < NUM_ROLLING_AVG_VALUES; i++) {
     values[i-1]= values[i];
   }
   values[NUM_ROLLING_AVG_VALUES-1] = new_value;
   sum += new_value;
-  
+
   return sum / NUM_ROLLING_AVG_VALUES;
 }
 int counter = 0;
@@ -141,26 +141,26 @@ void loop() {
   int frontSensorValue = analogRead(frontSensorPin);
   int sideSensorValue = analogRead(sideSensorPin);
   int sideAvg = rollingAverage(sideSensorValue);
-  
+
   side_distance = find_distance(sideAvg);
-  
+
   if (side_distance > DESIRED_DISTANCE_FROM_WALL_CM - MARGIN
    && side_distance < DESIRED_DISTANCE_FROM_WALL_CM + MARGIN) {
     pid.SetTunings(CONSERVATIVE_K_P, CONSERVATIVE_K_I, CONSERVATIVE_K_D);
   } else {
     pid.SetTunings(AGGRESSIVE_K_P, AGGRESSIVE_K_I, AGGRESSIVE_K_D);
   }
-  
+
   pid.Compute();
-  
+
   // Set servo angle
   if (frontSensorValue > MIN_FRONT_DISTANCE) {
     pid.SetMode(MANUAL);
     servo.write(RIGHT_TURN);
-    
+
     pid.SetMode(AUTOMATIC);
   } else {
-    int servoAngle = (int) (NEUTRAL_RUDDER - delta_rudder_angle);      
+    int servoAngle = (int) (NEUTRAL_RUDDER - delta_rudder_angle);
     servo.write(clampServoAngle(servoAngle));
   }
   if (0) {
@@ -178,6 +178,7 @@ void loop() {
     unsigned long time = millis();
     if (counter % 50 == 0) {
       Serial.println(time);
+      counter = 0;
     }
   }
 }
