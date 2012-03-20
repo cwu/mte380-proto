@@ -121,6 +121,21 @@ int clampServoAngle(int servoAngle) {
             min(ADJUST_LEFT_RUDDER, servoAngle));
 }
 
+#define NUM_ROLLING_AVG_VALUES 5
+int rollingAverage(int new_value) {
+  static int values[NUM_ROLLING_AVG_VALUES] = { 0 };
+  static int sum = 0;
+  
+  sum -= values[0];
+  for (int i = 1; i < NUM_ROLLING_AVG_VALUES; i++) {
+    values[i-1]= values[i];
+  }
+  values[NUM_ROLLING_AVG_VALUES-1] = new_value;
+  sum += new_value;
+  
+  return sum / NUM_ROLLING_AVG_VALUES;
+}
+
 void loop() {
   // Read in sensor values
   int frontSensorValue = analogRead(frontSensorPin);
