@@ -57,6 +57,8 @@ void PID::Compute()
       else if(ITerm < outMin) ITerm= outMin;
       double dInput = (input - lastInput);
 
+      ITerm = 0;
+
       /*Compute PID Output*/
       double output = kp * error + ITerm- kd * dInput;
 
@@ -86,6 +88,7 @@ void PID::SetTunings(double Kp, double Ki, double Kd)
    kp = Kp;
    ki = Ki * SampleTimeInSec;
    kd = Kd / SampleTimeInSec;
+
 
   if(controllerDirection ==REVERSE)
    {
