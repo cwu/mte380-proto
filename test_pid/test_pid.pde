@@ -43,19 +43,20 @@ const int MIN_MOTOR_SPEED = 90;
 const int MIN_SIDE_DISTANCE = 200;
 const int MAX_SIDE_DISTANCE = 260;
 
-const int MIN_FRONT_DISTANCE = 170;
+const int MIN_FRONT_DISTANCE = 120;
 
 const int ADJUST_RIGHT_RUDDER = 63;
 const int NEUTRAL_RUDDER = 75;
-const int ADJUST_LEFT_RUDDER = 85;
+const int ADJUST_LEFT_RUDDER = 90;
 
 const int RIGHT_TURN = 55;
 
 const int RIGHT_RUDDER_LIMIT = 55;
 const int LEFT_RUDDER_LIMIT = 95;
 
-const double DESIRED_DISTANCE_FROM_WALL_CM = 38.0;
-const double MARGIN = 3.0;
+const double DESIRED_DISTANCE_FROM_WALL_CM = 40.0;
+const double OUTER_MARGIN = 1.0;
+const double INNER_MARGIN = 3.0;
 
 // Decreasing servo angle variable
 int servoChange = 0;
@@ -144,8 +145,8 @@ void loop() {
 
   side_distance = find_distance(sideAvg);
 
-  if (side_distance > DESIRED_DISTANCE_FROM_WALL_CM - MARGIN
-   && side_distance < DESIRED_DISTANCE_FROM_WALL_CM + MARGIN) {
+  if (side_distance > DESIRED_DISTANCE_FROM_WALL_CM - INNER_MARGIN
+   && side_distance < DESIRED_DISTANCE_FROM_WALL_CM + OUTER_MARGIN) {
     pid.SetTunings(CONSERVATIVE_K_P, CONSERVATIVE_K_I, CONSERVATIVE_K_D);
   } else {
     pid.SetTunings(AGGRESSIVE_K_P, AGGRESSIVE_K_I, AGGRESSIVE_K_D);
