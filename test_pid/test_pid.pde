@@ -54,8 +54,8 @@ const int RIGHT_TURN = 55;
 const int RIGHT_RUDDER_LIMIT = 55;
 const int LEFT_RUDDER_LIMIT = 95;
 
-const double DESIRED_DISTANCE_FROM_WALL_CM = 38.0;
-const double OUTER_MARGIN = 1.5;
+const double DESIRED_DISTANCE_FROM_WALL_CM = 35.0;
+const double OUTER_MARGIN = 1.0;
 const double INNER_MARGIN = 3.0;
 
 // Decreasing servo angle variable
