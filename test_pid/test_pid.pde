@@ -43,10 +43,10 @@ const int MIN_MOTOR_SPEED = 90;
 const int MIN_SIDE_DISTANCE = 200;
 const int MAX_SIDE_DISTANCE = 260;
 
-const int MIN_FRONT_DISTANCE = 120;
+const int MIN_FRONT_DISTANCE = 140;
 
 const int ADJUST_RIGHT_RUDDER = 63;
-const int NEUTRAL_RUDDER = 75;
+const int NEUTRAL_RUDDER = 78;
 const int ADJUST_LEFT_RUDDER = 90;
 
 const int RIGHT_TURN = 55;
@@ -54,8 +54,8 @@ const int RIGHT_TURN = 55;
 const int RIGHT_RUDDER_LIMIT = 55;
 const int LEFT_RUDDER_LIMIT = 95;
 
-const double DESIRED_DISTANCE_FROM_WALL_CM = 40.0;
-const double OUTER_MARGIN = 1.0;
+const double DESIRED_DISTANCE_FROM_WALL_CM = 38.0;
+const double OUTER_MARGIN = 1.5;
 const double INNER_MARGIN = 3.0;
 
 // Decreasing servo angle variable
@@ -158,7 +158,6 @@ void loop() {
   if (frontSensorValue > MIN_FRONT_DISTANCE) {
     pid.SetMode(MANUAL);
     servo.write(RIGHT_TURN);
-
     pid.SetMode(AUTOMATIC);
   } else {
     int servoAngle = (int) (NEUTRAL_RUDDER - delta_rudder_angle);
